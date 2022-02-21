@@ -6,6 +6,7 @@ import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.function.Consumer;
 
 @SuppressWarnings("serial")
 public class DateWiseSchedule implements Serializable {
@@ -25,7 +26,7 @@ public class DateWiseSchedule implements Serializable {
 		return timeSlots;
 	}
 
-	public void setTimeSlots(TimeSlots timeSlots) {
+	Consumer<TimeSlots> setTimeSlots = timeSlots -> {
 		LocalTime startTime = timeSlots.getStartTime();
 		LocalTime endTime = timeSlots.getEndTime();
 
@@ -43,7 +44,7 @@ public class DateWiseSchedule implements Serializable {
 			timeSlots1.add(slot);
 		}
 		this.timeSlots = timeSlots1;
-	}
+	};
 
 	public ArrayList<TimeSlots> getBreakSlots() {
 		return breakSlots;

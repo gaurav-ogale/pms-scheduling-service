@@ -15,18 +15,14 @@ public class DoctorShifts {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
-
 	private LocalDate shiftDate;
-
 	private LocalTime shiftStartTime;
-
 	private LocalTime shiftEndTime;
 
 	@ManyToOne
 	private Doctor doctor;
 
 	public DoctorShifts() {
-		// TODO Auto-generated constructor stub
 	}
 
 	public DoctorShifts(LocalDate shiftDate, LocalTime shiftStartTime, LocalTime shiftEndTime, Doctor doctor) {

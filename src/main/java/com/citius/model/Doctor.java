@@ -35,11 +35,9 @@ public class Doctor {
 	private Set<AppointmentSlots> appointments = new HashSet<AppointmentSlots>();
 
 	public Doctor() {
-		// TODO Auto-generated constructor stub
 	}
 
-	public Doctor(User user, String specialization, Set<DoctorShifts> shifts,
-			Set<AppointmentSlots> appointments) {
+	public Doctor(User user, String specialization, Set<DoctorShifts> shifts, Set<AppointmentSlots> appointments) {
 		super();
 		this.user = user;
 		this.specialization = specialization;

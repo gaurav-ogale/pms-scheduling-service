@@ -8,6 +8,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
+
+import com.citius.entities.User;
 
 @Entity
 public class AppointmentSlots {
@@ -22,16 +25,21 @@ public class AppointmentSlots {
 	@ManyToOne
 	private Doctor doctor;
 
+	@OneToOne
+	private User user;
+
 	public AppointmentSlots() {
-		// TODO Auto-generated constructor stub
 	}
 
-	public AppointmentSlots(LocalTime startTime, LocalTime endTime, LocalDate appointmentDate, Doctor doctor) {
+	public AppointmentSlots(Long id, LocalTime startTime, LocalTime endTime, LocalDate appointmentDate, Doctor doctor,
+			User user) {
 		super();
+		this.id = id;
 		this.startTime = startTime;
 		this.endTime = endTime;
 		this.appointmentDate = appointmentDate;
 		this.doctor = doctor;
+		this.user = user;
 	}
 
 	public Long getId() {
@@ -72,6 +80,14 @@ public class AppointmentSlots {
 
 	public void setDoctor(Doctor doctor) {
 		this.doctor = doctor;
+	}
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
 	}
 
 }

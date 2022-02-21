@@ -5,6 +5,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 import com.citius.entities.User;
 import com.citius.entities.UserGroup;
@@ -18,7 +19,7 @@ public class DoctorAppointments {
 	@ManyToOne(fetch = FetchType.EAGER)
 	private Doctor doctor;
 
-	@ManyToOne
+	@OneToMany
 	private AppointmentSlots slot;
 
 }
