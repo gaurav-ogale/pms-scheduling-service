@@ -13,7 +13,20 @@ import javax.persistence.OneToOne;
 
 import com.citius.userentities.User;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
+
 @Entity
+@Data
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@ToString
 public class AppointmentSlots {
 
 	@Id
@@ -31,75 +44,5 @@ public class AppointmentSlots {
 	@OneToOne
 	@JoinColumn(name = "userId")
 	private User user;
-
-	public AppointmentSlots() {
-	}
-
-	public AppointmentSlots(LocalTime startTime, LocalTime endTime, LocalDate appointmentDate, String appointmentStatus,
-			Doctor doctor, User user) {
-		super();
-		this.startTime = startTime;
-		this.endTime = endTime;
-		this.appointmentDate = appointmentDate;
-		this.appointmentStatus = appointmentStatus;
-		this.doctor = doctor;
-		this.user = user;
-	}
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	public LocalTime getStartTime() {
-		return startTime;
-	}
-
-	public void setStartTime(LocalTime startTime) {
-		this.startTime = startTime;
-	}
-
-	public LocalTime getEndTime() {
-		return endTime;
-	}
-
-	public void setEndTime(LocalTime endTime) {
-		this.endTime = endTime;
-	}
-
-	public LocalDate getAppointmentDate() {
-		return appointmentDate;
-	}
-
-	public void setAppointmentDate(LocalDate appointmentDate) {
-		this.appointmentDate = appointmentDate;
-	}
-
-	public String getAppointmentStatus() {
-		return appointmentStatus;
-	}
-
-	public void setAppointmentStatus(String appointmentStatus) {
-		this.appointmentStatus = appointmentStatus;
-	}
-
-	public Doctor getDoctor() {
-		return doctor;
-	}
-
-	public void setDoctor(Doctor doctor) {
-		this.doctor = doctor;
-	}
-
-	public User getUser() {
-		return user;
-	}
-
-	public void setUser(User user) {
-		this.user = user;
-	}
 
 }

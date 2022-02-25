@@ -10,7 +10,18 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
+
 @Entity
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@ToString
 public class DoctorShifts {
 
 	@Id
@@ -23,56 +34,5 @@ public class DoctorShifts {
 	@ManyToOne
 	@JoinColumn(name = "doctorId")
 	private Doctor doctor;
-
-	public DoctorShifts() {
-	}
-
-	public DoctorShifts(LocalDate shiftDate, LocalTime shiftStartTime, LocalTime shiftEndTime, Doctor doctor) {
-		super();
-		this.shiftDate = shiftDate;
-		this.shiftStartTime = shiftStartTime;
-		this.shiftEndTime = shiftEndTime;
-		this.doctor = doctor;
-	}
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	public LocalDate getShiftDate() {
-		return shiftDate;
-	}
-
-	public void setShiftDate(LocalDate shiftDate) {
-		this.shiftDate = shiftDate;
-	}
-
-	public LocalTime getShiftStartTime() {
-		return shiftStartTime;
-	}
-
-	public void setShiftStartTime(LocalTime shiftStartTime) {
-		this.shiftStartTime = shiftStartTime;
-	}
-
-	public LocalTime getShiftEndTime() {
-		return shiftEndTime;
-	}
-
-	public void setShiftEndTime(LocalTime shiftEndTime) {
-		this.shiftEndTime = shiftEndTime;
-	}
-
-	public Doctor getDoctor() {
-		return doctor;
-	}
-
-	public void setDoctor(Doctor doctor) {
-		this.doctor = doctor;
-	}
 
 }

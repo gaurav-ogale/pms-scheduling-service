@@ -19,9 +19,21 @@ import javax.persistence.Transient;
 
 import com.citius.userentities.User;
 
-@Entity
-public class Doctor {
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
+@Data
+@Entity
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@ToString
+public class Doctor {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
@@ -38,55 +50,12 @@ public class Doctor {
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "doctor")
 	private Set<AppointmentSlots> appointments = new HashSet<AppointmentSlots>();
 
-	public Doctor() {
-	}
-
 	public Doctor(User user, String specialization, Set<DoctorShifts> shifts) {
 		super();
 		this.user = user;
 		this.specialization = specialization;
 		this.shifts = shifts;
 		this.appointments = setAllDefaultAppointments(this.getShifts(), this.appointmentSlots);
-	}
-
-	public long getId() {
-		return id;
-	}
-
-	public void setId(long id) {
-		this.id = id;
-	}
-
-	public User getUser() {
-		return user;
-	}
-
-	public void setUser(User user) {
-		this.user = user;
-	}
-
-	public String getSpecialization() {
-		return specialization;
-	}
-
-	public void setSpecialization(String specialization) {
-		this.specialization = specialization;
-	}
-
-	public Set<DoctorShifts> getShifts() {
-		return shifts;
-	}
-
-	public void setShifts(Set<DoctorShifts> shifts) {
-		this.shifts = shifts;
-	}
-
-	public Set<AppointmentSlots> getAppointments() {
-		return appointments;
-	}
-
-	public void setAppointments(Set<AppointmentSlots> appointments) {
-		this.appointments = appointments;
 	}
 
 	public void setDefaultAppointments(Set<DoctorShifts> shifts) {
@@ -125,11 +94,5 @@ public class Doctor {
 		}
 		return slotSet;
 	};
-
-	@Override
-	public String toString() {
-		return "Doctor [id=" + id + ", user=" + user + ", specialization=" + specialization + ", shifts=" + shifts
-				+ ", appointments=" + appointments + ", appointmentSlots=" + appointmentSlots + "]";
-	}
 
 }

@@ -12,8 +12,19 @@ import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
+
 @Entity
 @Table(name = "usergroup")
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@ToString
 public class UserGroup {
 	@Id
 	private Long userRoleId;
@@ -22,40 +33,5 @@ public class UserGroup {
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "userGroup")
 	@JsonIgnore
 	private Set<User_Roles> userRoles = new HashSet<User_Roles>();
-
-	public UserGroup() {
-		// TODO Auto-generated constructor stub
-	}
-
-	public UserGroup(Long userRoleId, String userRole, Set<User_Roles> userRoles) {
-		super();
-		this.userRoleId = userRoleId;
-		this.userRole = userRole;
-		this.userRoles = userRoles;
-	}
-
-	public Long getUserRoleId() {
-		return userRoleId;
-	}
-
-	public void setUserRoleId(Long userRoleId) {
-		this.userRoleId = userRoleId;
-	}
-
-	public String getUserRole() {
-		return userRole;
-	}
-
-	public void setUserRole(String userRole) {
-		this.userRole = userRole;
-	}
-
-	public Set<User_Roles> getUserRoles() {
-		return userRoles;
-	}
-
-	public void setUserRoles(Set<User_Roles> userRoles) {
-		this.userRoles = userRoles;
-	}
 
 }
