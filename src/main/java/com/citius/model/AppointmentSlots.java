@@ -7,10 +7,11 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 
-import com.citius.entities.User;
+import com.citius.userentities.User;
 
 @Entity
 public class AppointmentSlots {
@@ -21,23 +22,26 @@ public class AppointmentSlots {
 	private LocalTime startTime;
 	private LocalTime endTime;
 	private LocalDate appointmentDate;
+	private String appointmentStatus;
 
 	@ManyToOne
+	@JoinColumn(name = "doctorId")
 	private Doctor doctor;
 
 	@OneToOne
+	@JoinColumn(name = "userId")
 	private User user;
 
 	public AppointmentSlots() {
 	}
 
-	public AppointmentSlots(Long id, LocalTime startTime, LocalTime endTime, LocalDate appointmentDate, Doctor doctor,
-			User user) {
+	public AppointmentSlots(LocalTime startTime, LocalTime endTime, LocalDate appointmentDate, String appointmentStatus,
+			Doctor doctor, User user) {
 		super();
-		this.id = id;
 		this.startTime = startTime;
 		this.endTime = endTime;
 		this.appointmentDate = appointmentDate;
+		this.appointmentStatus = appointmentStatus;
 		this.doctor = doctor;
 		this.user = user;
 	}
@@ -72,6 +76,14 @@ public class AppointmentSlots {
 
 	public void setAppointmentDate(LocalDate appointmentDate) {
 		this.appointmentDate = appointmentDate;
+	}
+
+	public String getAppointmentStatus() {
+		return appointmentStatus;
+	}
+
+	public void setAppointmentStatus(String appointmentStatus) {
+		this.appointmentStatus = appointmentStatus;
 	}
 
 	public Doctor getDoctor() {

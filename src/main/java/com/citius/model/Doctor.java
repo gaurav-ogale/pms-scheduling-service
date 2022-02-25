@@ -1,7 +1,10 @@
 package com.citius.model;
 
+import java.time.Duration;
+import java.time.LocalTime;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.function.Function;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -12,8 +15,9 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.Transient;
 
-import com.citius.entities.User;
+import com.citius.userentities.User;
 
 @Entity
 public class Doctor {
@@ -37,12 +41,12 @@ public class Doctor {
 	public Doctor() {
 	}
 
-	public Doctor(User user, String specialization, Set<DoctorShifts> shifts, Set<AppointmentSlots> appointments) {
+	public Doctor(User user, String specialization, Set<DoctorShifts> shifts) {
 		super();
 		this.user = user;
 		this.specialization = specialization;
 		this.shifts = shifts;
-		this.appointments = appointments;
+		this.appointments = setAllDefaultAppointments(this.getShifts(), this.appointmentSlots);
 	}
 
 	public long getId() {
@@ -83,6 +87,49 @@ public class Doctor {
 
 	public void setAppointments(Set<AppointmentSlots> appointments) {
 		this.appointments = appointments;
+	}
+
+	public void setDefaultAppointments(Set<DoctorShifts> shifts) {
+		this.appointments = setAllDefaultAppointments(shifts, this.appointmentSlots);
+	}
+
+	private Set<AppointmentSlots> setAllDefaultAppointments(Set<DoctorShifts> drShifts,
+			Function<DoctorShifts, Set<AppointmentSlots>> appointmentSlotFunc) {
+		Set<AppointmentSlots> defaultAppointments = new HashSet<>();
+		drShifts.forEach(shift -> {
+			Set<AppointmentSlots> slot = appointmentSlotFunc.apply(shift);
+			defaultAppointments.addAll(slot);
+		});
+		return defaultAppointments;
+	}
+
+	@Transient
+	private Function<DoctorShifts, Set<AppointmentSlots>> appointmentSlots = doctorShift -> {
+		LocalTime startTime = doctorShift.getShiftStartTime();
+		LocalTime endTime = doctorShift.getShiftEndTime();
+
+		int gapInMinutes = 60;
+		int loops = ((int) Duration.between(startTime, endTime).toMinutes() / gapInMinutes);
+		Set<AppointmentSlots> slotSet = new HashSet<AppointmentSlots>();
+		LocalTime time = startTime;
+		for (int i = 1; i <= loops; i++) {
+			AppointmentSlots slot = new AppointmentSlots();
+			slot.setStartTime(time);
+			time = time.plusMinutes(gapInMinutes);
+			slot.setEndTime(time);
+
+			slot.setAppointmentDate(doctorShift.getShiftDate());
+			slot.setAppointmentStatus("AVAILABLE");
+			slot.setDoctor(doctorShift.getDoctor());
+			slotSet.add(slot);
+		}
+		return slotSet;
+	};
+
+	@Override
+	public String toString() {
+		return "Doctor [id=" + id + ", user=" + user + ", specialization=" + specialization + ", shifts=" + shifts
+				+ ", appointments=" + appointments + ", appointmentSlots=" + appointmentSlots + "]";
 	}
 
 }

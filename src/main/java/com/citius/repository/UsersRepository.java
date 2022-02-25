@@ -3,7 +3,7 @@ package com.citius.repository;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
-import com.citius.entities.User;
+import com.citius.userentities.User;
 
 public interface UsersRepository extends JpaRepository<User, Long> {
 

@@ -1,4 +1,4 @@
-package com.citius.entities;
+package com.citius.userentities;
 
 import java.util.HashSet;
 import java.util.Set;

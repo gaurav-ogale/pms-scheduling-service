@@ -1,4 +1,4 @@
-package com.citius.entities;
+package com.citius.userentities;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;

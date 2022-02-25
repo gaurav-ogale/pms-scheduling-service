@@ -2,7 +2,7 @@ package com.citius.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.citius.entities.User_Roles;
+import com.citius.userentities.User_Roles;
 
 
 

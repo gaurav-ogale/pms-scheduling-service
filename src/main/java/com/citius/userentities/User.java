@@ -1,4 +1,4 @@
-package com.citius.entities;
+package com.citius.userentities;
 
 import java.time.LocalDate;
 import java.util.HashSet;
@@ -18,8 +18,6 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 @Entity
 @Table(name = "users")
 public class User {
@@ -36,21 +34,22 @@ public class User {
 	private String userFirstName;
 	private String userLastName;
 
-	@NotNull(message = "Email Should Not be Null")@NotEmpty @NotBlank
+	@NotNull(message = "Email Should Not be Null")
+	@NotEmpty
+	@NotBlank
 	private String userEmail;
 
 	private LocalDate userDOB;
 
-	@Size(min = 10,max = 10, message = "Contact No shoule be of 10 digit")
+	@Size(min = 10, max = 10, message = "Contact No shoule be of 10 digit")
 	private String userContactNo;
 
 	@NotNull(message = "password should not be null")
 	private String password;
-	
+
 	private Boolean isActive = true;
 
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "user")
-	@JsonIgnore
 	private Set<User_Roles> userRoles = new HashSet<User_Roles>();
 
 	public User() {
@@ -155,7 +154,6 @@ public class User {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-
 
 	public Set<User_Roles> getUserRoles() {
 		return userRoles;
