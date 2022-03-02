@@ -18,11 +18,12 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.ToString;
 
 @Entity
 @Table(name = "users")
@@ -30,7 +31,6 @@ import lombok.ToString;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
 public class User {
 
 	@Id
@@ -60,7 +60,17 @@ public class User {
 
 	private Boolean isActive = true;
 
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "user")
-	private Set<User_Roles> userRoles = new HashSet<User_Roles>();
+//
+
+//	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "user")
+//	@JsonIgnore
+//	private Set<User_Roles> userRoles = new HashSet<User_Roles>();
+
+//	@Override
+//	public String toString() {
+//		return "User [userId=" + userId + ", username=" + username + ", userTitle=" + userTitle + ", userFirstName="
+//				+ userFirstName + ", userLastName=" + userLastName + ", userEmail=" + userEmail + ", userDOB=" + userDOB
+//				+ ", userContactNo=" + userContactNo + ", password=" + password + ", isActive=" + isActive + "]";
+//	}
 
 }

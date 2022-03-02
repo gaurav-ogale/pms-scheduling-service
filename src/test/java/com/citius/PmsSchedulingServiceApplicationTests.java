@@ -2,6 +2,7 @@ package com.citius;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -9,10 +10,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import com.citius.dto.DoctorShiftDetails;
-import com.citius.model.AppointmentSlots;
-import com.citius.model.AppointmentStatus;
 import com.citius.model.Doctor;
+import com.citius.model.DoctorShifts;
 import com.citius.repository.AppointmentSlotRepo;
 import com.citius.repository.DoctorRepository;
 import com.citius.repository.UsersRepository;
@@ -44,8 +43,8 @@ class PmsSchedulingServiceApplicationTests {
 //	void addDoctorShift() {
 //		Set<DoctorShifts> drShifts = new HashSet<>();
 //		Doctor dr = new Doctor();
-//		DoctorShifts shift = new DoctorShifts(LocalDate.now(), LocalTime.of(06, 00), LocalTime.of(15, 00), dr);
-//		DoctorShifts shift2 = new DoctorShifts(LocalDate.of(2022, 2, 23), LocalTime.of(06, 00), LocalTime.of(15, 00),
+//		DoctorShifts shift = new DoctorShifts(null, LocalDate.now(), LocalTime.of(06, 00), LocalTime.of(15, 00), dr);
+//		DoctorShifts shift2 = new DoctorShifts(null, LocalDate.of(2022, 2, 23), LocalTime.of(06, 00), LocalTime.of(15, 00),
 //				dr);
 //		drShifts.add(shift);
 //		drShifts.add(shift2);
@@ -95,9 +94,11 @@ class PmsSchedulingServiceApplicationTests {
 
 	@Test
 	void getShifts() {
-		List<Doctor> shiftList = shiftService.getShifts(197L);
+		//List<DoctorShifts> shiftList = shiftService.getShifts(165L);
+		
+		//System.out.println(shiftList);
 
-		shiftList.forEach(dr ->System.out.println(dr.toString()));
+		//shiftList.forEach(dr ->System.out.println(dr.toString()));
 	}
 
 }

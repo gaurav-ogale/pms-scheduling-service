@@ -18,25 +18,20 @@ import javax.persistence.OneToOne;
 import javax.persistence.Transient;
 
 import com.citius.userentities.User;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 import lombok.ToString;
 
-@Data
 @Entity
-@Getter
-@Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
 public class Doctor {
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private long id;
+	private long doctor_id;
 
 	@OneToOne
 	@JoinColumn(name = "userId")
@@ -44,10 +39,10 @@ public class Doctor {
 
 	private String specialization;
 
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "doctor")
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "doctor")
 	private Set<DoctorShifts> shifts = new HashSet<DoctorShifts>();
 
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "doctor")
+	@OneToMany(cascade = CascadeType.ALL,  mappedBy = "doctor")
 	private Set<AppointmentSlots> appointments = new HashSet<AppointmentSlots>();
 
 	public Doctor(User user, String specialization, Set<DoctorShifts> shifts) {
@@ -73,6 +68,7 @@ public class Doctor {
 	}
 
 	@Transient
+	@JsonIgnore
 	private Function<DoctorShifts, Set<AppointmentSlots>> appointmentSlots = doctorShift -> {
 		LocalTime startTime = doctorShift.getShiftStartTime();
 		LocalTime endTime = doctorShift.getShiftEndTime();
@@ -94,5 +90,53 @@ public class Doctor {
 		}
 		return slotSet;
 	};
+
+	public long getDoctor_id() {
+		return doctor_id;
+	}
+
+	public void setDoctor_id(long doctor_id) {
+		this.doctor_id = doctor_id;
+	}
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+
+	public String getSpecialization() {
+		return specialization;
+	}
+
+	public void setSpecialization(String specialization) {
+		this.specialization = specialization;
+	}
+
+	public Set<DoctorShifts> getShifts() {
+		return shifts;
+	}
+
+	public void setShifts(Set<DoctorShifts> shifts) {
+		this.shifts = shifts;
+	}
+
+	public Set<AppointmentSlots> getAppointments() {
+		return appointments;
+	}
+
+	public void setAppointments(Set<AppointmentSlots> appointments) {
+		this.appointments = appointments;
+	}
+
+//	@Override
+//	public String toString() {
+//		return "Doctor [doctor_id=" + doctor_id + ", user=" + user + ", specialization=" + specialization + ", shifts="
+//				+ shifts + ", appointments=" + appointments + ", appointmentSlots=" + appointmentSlots + "]";
+//	}
+	
+	
 
 }

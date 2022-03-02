@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 import com.citius.model.Doctor;
+import com.citius.userentities.User;
 
 public interface DoctorRepository extends JpaRepository<Doctor, Long> {
 
@@ -18,6 +19,8 @@ public interface DoctorRepository extends JpaRepository<Doctor, Long> {
 	@Query(value = "select u.*,d.*,"
 			+ "s.*" + " from users u JOIN doctor d"
 			+ " ON u.user_id = d.user_id"
-			+ " JOIN doctor_shifts s ON d.id=s.doctor_id where d.id= :id", nativeQuery = true)
+			+ " JOIN doctor_shifts s ON d.doctor_id=s.doctor_id where d.doctor_id= :id", nativeQuery = true)
 	List<Doctor> getDoctorShifts(long id);
+	
+	Doctor findByUser(User user);
 }
