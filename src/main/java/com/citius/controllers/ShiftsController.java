@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.citius.dto.DoctorDTO;
-import com.citius.model.Doctor;
 import com.citius.services.ShiftService;
 
 import io.swagger.v3.oas.annotations.tags.Tag;

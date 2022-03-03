@@ -24,13 +24,12 @@ import com.fasterxml.jackson.datatype.jsr310.ser.LocalTimeSerializer;
 
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
 
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
 //@ToString
-public class AppointmentSlots implements Serializable{
+public class AppointmentSlots implements Serializable {
 	/**
 	 * 
 	 */
@@ -50,7 +49,6 @@ public class AppointmentSlots implements Serializable{
 	@DateTimeFormat(iso = DateTimeFormat.ISO.TIME)
 	private LocalTime endTime;
 
-	//@JsonFormat(pattern = "yyyy-MM-dd", shape = JsonFormat.Shape.STRING)
 	@DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
 	@JsonSerialize(using = LocalDateSerializer.class)
 	@JsonDeserialize(using = LocalDateDeserializer.class)
