@@ -11,10 +11,13 @@ import com.citius.model.AppointmentSlots;
 
 public interface AppointmentSlotRepo extends JpaRepository<AppointmentSlots, Long> {
 
-	@Query(value = "select a from AppointmentSlots a where a.appointmentDate=:appointment_date AND a.startTime=:start_time AND doctor.doctor_id=:doctorId")
+	@Query(value = "from AppointmentSlots a where a.appointmentDate=:appointment_date AND a.startTime=:start_time AND doctor.doctor_id=:doctorId")
 	AppointmentSlots getAppointmentSlotData(LocalDate appointment_date, LocalTime start_time, long doctorId);
 
-	@Query(value = "select * from appointment_slots where doctor_id=:doctor_id AND appointment_status=:status", nativeQuery = true)
-	List<AppointmentSlots> getAppointmentsByDoctorId(long doctor_id, String status);
-
+	@Query(value = "from AppointmentSlots a where a.doctor.doctor_id=:doctor_id AND a.appointmentStatus=:status AND a.appointmentDate>=:today")
+	List<AppointmentSlots> getAppointmentsByDoctorId(long doctor_id, String status, LocalDate today);
+	
+	@Query(value = "from AppointmentSlots a where a.user.userId=:user_id")
+	List<AppointmentSlots> getAppointmentsByUserId(long user_id);
+	
 }

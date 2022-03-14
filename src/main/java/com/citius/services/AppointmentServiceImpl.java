@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.citius.dto.AppointmentDTO;
+import com.citius.exception.AppoinmentCreationException;
 import com.citius.model.AppointmentSlots;
 import com.citius.model.AppointmentStatus;
 import com.citius.repository.AppointmentSlotRepo;
@@ -21,7 +22,7 @@ public class AppointmentServiceImpl implements AppointmentService {
 
 	@Autowired
 	private AppointmentSlotRepo appointmentRepo;
-	
+
 	@Autowired
 	private UsersRepository userRepository;
 
@@ -37,15 +38,15 @@ public class AppointmentServiceImpl implements AppointmentService {
 			appointmentSlot.setUser(user);
 			appointmentRepo.save(appointmentSlot);
 			return "Success";
+		}else {
+			throw new AppoinmentCreationException("User Not Present Or Slots are Invalid");
 		}
-
-		return "Failed";
 	}
 
 	@Override
 	public List<AppointmentDTO> getAppointmentsByDoctorId(long doctor_id) {
 		List<AppointmentSlots> apptList = appointmentRepo.getAppointmentsByDoctorId(doctor_id,
-				AppointmentStatus.AVAILABLE.toString());
+				AppointmentStatus.AVAILABLE.toString(), LocalDate.now());
 		List<AppointmentDTO> apptDTOList = dbToJson(apptList);
 		return apptDTOList;
 
@@ -61,7 +62,6 @@ public class AppointmentServiceImpl implements AppointmentService {
 			appointment.setEndTime(slot.getEndTime().toString());
 			appointment.setAppointmentStatus(slot.getAppointmentStatus());
 			apptDTOList.add(appointment);
-
 		}
 		return apptDTOList;
 	}

@@ -35,7 +35,6 @@ public class ShiftServiceImpl implements ShiftService {
 	@Override
 	public DoctorDTO getShifts(long id) {
 		List<DoctorShifts> shiftList = drShiftRepository.getShiftsByDoctorId(id);
-
 		dbToJson(shiftList);
 		return dbToJson(shiftList);
 	}
@@ -98,6 +97,7 @@ public class ShiftServiceImpl implements ShiftService {
 				drShift.setShiftEndTime(LocalTime.parse(shift.getShiftEndTime(), DateTimeFormatter.ISO_TIME));
 				drShifts.add(drShift);
 			});
+			doctorFromDb.setDefaultAppointments(drShifts);
 			doctorFromDb.setShifts(drShifts);
 		}
 		if (Objects.nonNull(doctorFromDb.getSpecialization())
