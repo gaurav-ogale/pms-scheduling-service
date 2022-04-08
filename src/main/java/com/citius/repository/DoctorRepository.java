@@ -23,4 +23,13 @@ public interface DoctorRepository extends JpaRepository<Doctor, Long> {
 	List<Doctor> getDoctorShifts(long id);
 	
 	Doctor findByUser(User user);
+	
+	@Query("from Doctor d where d.user.userId=:userId")
+	Doctor getDctorIDFromUserId(Long userId);
+	
+	@Query("select DISTINCT(d.specialization) from Doctor d")
+	List<String> getDoctorSpecializations();
+	
+	@Query("from Doctor d where d.specialization=:specialization")
+	List<Doctor> getAllDoctorsforSpcialization(String specialization);
 }

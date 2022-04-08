@@ -1,10 +1,13 @@
 package com.citius.controllers;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -12,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.citius.dto.DoctorDTO;
+import com.citius.model.Doctor;
 import com.citius.services.ShiftService;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -33,7 +37,7 @@ public class ShiftsController {
 	@PostMapping("/doctorShifts")
 	@Operation(summary = "Create/Add Doctor Shifts")
 	public ResponseEntity<?> createDoctorWithShifts(@RequestBody DoctorDTO doctor) {
-		String res =  shiftService.createDoctorShift(doctor);		
+		String res = shiftService.createDoctorShift(doctor);
 		if (res.equalsIgnoreCase("Success"))
 			return new ResponseEntity<>(HttpStatus.OK);
 		return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -52,6 +56,18 @@ public class ShiftsController {
 		if (res.equalsIgnoreCase("Success"))
 			return new ResponseEntity<>(HttpStatus.OK);
 		return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+	}
+
+	@GetMapping("/specializations")
+	@Operation(summary = "Get All Specializations")
+	public List<String> getAllSpecializations() {
+		return shiftService.getAllSpecialization();
+	}
+
+	@GetMapping("/specializations/{specialization}")
+	@Operation(summary = "Get All Specializations")
+	public List<DoctorDTO> getSpecialization(@PathVariable("specialization") String specialization) {
+		return shiftService.getDoctorFromSpecialization(specialization);
 	}
 
 }

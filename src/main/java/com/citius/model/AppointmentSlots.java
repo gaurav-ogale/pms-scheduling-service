@@ -38,6 +38,7 @@ public class AppointmentSlots implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
+	private String title;
 
 	@JsonDeserialize(using = LocalTimeDeserializer.class)
 	@JsonSerialize(using = LocalTimeSerializer.class)
@@ -63,6 +64,7 @@ public class AppointmentSlots implements Serializable {
 	@JoinColumn(name = "userId")
 	private User user;
 
+	
 	public Long getId() {
 		return id;
 	}
@@ -117,6 +119,18 @@ public class AppointmentSlots implements Serializable {
 
 	public void setUser(User user) {
 		this.user = user;
+	}
+
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
 	}
 
 }

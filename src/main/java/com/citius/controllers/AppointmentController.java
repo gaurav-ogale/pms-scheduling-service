@@ -6,10 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.citius.dto.AppointmentDTO;
@@ -27,19 +27,40 @@ public class AppointmentController {
 
 	@GetMapping("/appointments/{doctorId}")
 	@Operation(summary = "Get All Available appointments for a doctor")
-	public List<AppointmentDTO> getAppointmentsByDoctorId(@RequestParam("doctorId") long doctor_id) {
-		return appointmentService.getAppointmentsByDoctorId(doctor_id);
+	public List<AppointmentDTO> getAppointmentsByDoctorId(@PathVariable("doctorId") String doctor_id) {
+		return appointmentService.getAppointmentsByDoctorId(Long.parseLong(doctor_id));
 	}
-	
+
 	@PostMapping("/appointments")
 	@Operation(summary = "Schedule New Appointment")
-	public ResponseEntity<?> createDoctorWithShifts(@RequestBody AppointmentDTO appointment,@RequestHeader("doctorId") long doctorId,@RequestHeader("userId") long userId) {
-		String res =  appointmentService.addAppointment(appointment, doctorId, userId);		
+	public ResponseEntity<?> createDoctorWithShifts(@RequestBody AppointmentDTO appointment) {
+		String res = appointmentService.addAppointment(appointment, appointment.getUserId());
 		if (res.equalsIgnoreCase("Success")) {
 			return new ResponseEntity<>(HttpStatus.OK);
 		}
-		return null;
+		return (ResponseEntity<?>) ResponseEntity.internalServerError();
 	}
 
+	@PutMapping("/appointments")
+	@Operation(summary = "Update Appointment")
+	public ResponseEntity<?> updateAppointment(@RequestBody AppointmentDTO appointment) {
+
+		String res = appointmentService.updateAppointment(appointment, appointment.getUserId());
+		if (res.equalsIgnoreCase("Success")) {
+			return new ResponseEntity<>(HttpStatus.OK);
+		}
+		return (ResponseEntity<?>) ResponseEntity.internalServerError();
+	}
+
+	@PutMapping("/removeAppointments")
+	@Operation(summary = "Delete Appointment")
+	public ResponseEntity<?> deleteAppointment(@RequestBody AppointmentDTO appointment) {
+
+		String res = appointmentService.deleteAppointment(appointment, appointment.getUserId());
+		if (res.equalsIgnoreCase("Success")) {
+			return new ResponseEntity<>(HttpStatus.OK);
+		}
+		return (ResponseEntity<?>) ResponseEntity.internalServerError();
+	}
 
 }

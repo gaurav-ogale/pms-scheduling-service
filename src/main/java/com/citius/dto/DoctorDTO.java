@@ -20,6 +20,7 @@ import lombok.ToString;
 @ToString
 public class DoctorDTO {
 
+	private long doctorId;
 	private long userId;
 	private String specialization;
 	private User user;

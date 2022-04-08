@@ -3,6 +3,7 @@ package com.citius.services;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
@@ -62,6 +63,7 @@ public class ShiftServiceImpl implements ShiftService {
 	public String createDoctorShift(DoctorDTO doctorDto) {
 		Doctor doctor = new Doctor();
 		User user = userRepository.getById(doctorDto.getUserId());
+		System.out.println(user.toString());
 		Doctor userDr = doctorRepository.findByUser(user);
 		Set<DoctorShifts> drShifts = new HashSet<>();
 		if (user != null && userDr == null) {
@@ -79,8 +81,25 @@ public class ShiftServiceImpl implements ShiftService {
 			doctor.setSpecialization(doctorDto.getSpecialization());
 			doctorRepository.save(doctor);
 			return "Success";
+		} else {
+			doctorDto.getShifts().forEach(shift -> {
+				// if(!userDr.getShifts().contains(shift)) {
+				DoctorShifts drShift = new DoctorShifts();
+				drShift.setDoctor(userDr);
+				drShift.setShiftDate(LocalDate.parse(shift.getShiftDate(), DateTimeFormatter.ISO_DATE));
+				drShift.setShiftStartTime(LocalTime.parse(shift.getShiftStartTime(), DateTimeFormatter.ISO_TIME));
+				drShift.setShiftEndTime(LocalTime.parse(shift.getShiftEndTime(), DateTimeFormatter.ISO_TIME));
+				drShifts.add(drShift);
+				// }
+
+			});
+			userDr.setDefaultAppointments(drShifts);
+			userDr.setUser(user);
+			userDr.setShifts(drShifts);
+			userDr.setSpecialization(doctorDto.getSpecialization());
+			doctorRepository.save(userDr);
+			return "Success";
 		}
-		return "Error";
 
 	}
 
@@ -118,6 +137,31 @@ public class ShiftServiceImpl implements ShiftService {
 	@Override
 	public Doctor getDoctor(long doctor_id) {
 		return doctorRepository.findById(doctor_id).get();
+	}
+
+	@Override
+	public List<String> getAllSpecialization() {
+		return doctorRepository.getDoctorSpecializations();
+	}
+
+	@Override
+	public List<DoctorDTO> getDoctorFromSpecialization(String specialization) {
+		return dbToJsonDoctor(doctorRepository.getAllDoctorsforSpcialization(specialization));
+	}
+
+	public List<DoctorDTO> dbToJsonDoctor(List<Doctor> doctor) {
+		List<DoctorDTO> doctorList = new ArrayList<>();
+
+		for (Doctor d : doctor) {
+			DoctorDTO dt = new DoctorDTO();
+			dt.setDoctorId(d.getDoctor_id());
+			dt.setUser(d.getUser());
+			dt.setSpecialization(d.getSpecialization());
+			dt.setUserId(d.getUser().getUserId());
+			dt.setSpecialization(d.getSpecialization());
+			doctorList.add(dt);
+		}
+		return doctorList;
 	}
 
 }

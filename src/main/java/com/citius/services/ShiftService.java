@@ -1,5 +1,7 @@
 package com.citius.services;
 
+import java.util.List;
+
 import com.citius.dto.DoctorDTO;
 import com.citius.model.Doctor;
 
@@ -13,4 +15,8 @@ public interface ShiftService {
 	public String deleteDoctorShift(long doctor_id);
 	
 	public Doctor getDoctor(long doctor_id);
+	
+	public List<String> getAllSpecialization();
+	
+	public List<DoctorDTO> getDoctorFromSpecialization(String specialization);
 }
