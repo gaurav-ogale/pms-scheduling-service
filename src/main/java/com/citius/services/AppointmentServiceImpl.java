@@ -32,8 +32,8 @@ public class AppointmentServiceImpl implements AppointmentService {
 	private DoctorRepository doctorRepository;
 
 	@Override
-	public String addAppointment(AppointmentDTO appointment, long userId) {
-		Doctor doctor = doctorRepository.getDctorIDFromUserId(userId);
+	public String addAppointment(AppointmentDTO appointment, long userId, long doctorId) {
+		Doctor doctor = doctorRepository.findById(doctorId).get();
 		AppointmentSlots appointmentSlot = appointmentRepo.getAppointmentSlotData(
 				LocalDate.parse(appointment.getAppointmentDate(), DateTimeFormatter.ISO_DATE),
 				LocalTime.parse(appointment.getStartTime(), DateTimeFormatter.ISO_TIME), doctor.getDoctor_id());
@@ -115,6 +115,24 @@ public class AppointmentServiceImpl implements AppointmentService {
 		} else {
 			throw new AppoinmentCreationException("User Not Present Or Slots are Invalid");
 		}
+	}
+
+	@Override
+	public List<AppointmentDTO> getAppointmentsByDoctorIdAndDate(long doctor_id, LocalDate date) {
+		List<AppointmentSlots> apptList = appointmentRepo.getAllAppointmentsByDoctorIdAndDate(doctor_id, date,
+				AppointmentStatus.AVAILABLE.toString());
+		return dbToJson(apptList);
+	}
+
+	@Override
+	public List<AppointmentDTO> getUserAppointments(long userId, boolean isPast) {
+		List<AppointmentSlots> apptList = new ArrayList<AppointmentSlots>();
+		if (isPast) {
+			apptList = appointmentRepo.getPastUserAppointments(userId, LocalDate.now());
+		} else {
+			apptList = appointmentRepo.getFutureUserAppointments(userId, LocalDate.now());
+		}
+		return dbToJson(apptList);
 	}
 
 }

@@ -1,5 +1,7 @@
 package com.citius.controllers;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,10 +33,18 @@ public class AppointmentController {
 		return appointmentService.getAppointmentsByDoctorId(Long.parseLong(doctor_id));
 	}
 
+	@GetMapping("/appointments/{doctorId}/{date}")
+	@Operation(summary = "Get All Available appointments for a doctor for a date")
+	public List<AppointmentDTO> getAppointmentsByDoctorIdAndDate(@PathVariable("doctorId") String doctor_id,
+			@PathVariable("date") String date) {
+		return appointmentService.getAppointmentsByDoctorIdAndDate(Long.parseLong(doctor_id),
+				LocalDate.parse(date, DateTimeFormatter.ISO_DATE));
+	}
+
 	@PostMapping("/appointments")
 	@Operation(summary = "Schedule New Appointment")
 	public ResponseEntity<?> createDoctorWithShifts(@RequestBody AppointmentDTO appointment) {
-		String res = appointmentService.addAppointment(appointment, appointment.getUserId());
+		String res = appointmentService.addAppointment(appointment, appointment.getUserId(), appointment.getDoctorId());
 		if (res.equalsIgnoreCase("Success")) {
 			return new ResponseEntity<>(HttpStatus.OK);
 		}
@@ -63,4 +73,10 @@ public class AppointmentController {
 		return (ResponseEntity<?>) ResponseEntity.internalServerError();
 	}
 
+	@GetMapping("/user-appointments/{userId}/{isPast}")
+	@Operation(summary = "Get All User Appointments")
+	public List<AppointmentDTO> getUserAppointments(@PathVariable("userId") String userId,
+			@PathVariable("isPast") boolean isPast) {
+		return appointmentService.getUserAppointments(Long.parseLong(userId), isPast);
+	}
 }

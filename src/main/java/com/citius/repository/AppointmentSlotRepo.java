@@ -23,4 +23,13 @@ public interface AppointmentSlotRepo extends JpaRepository<AppointmentSlots, Lon
 	@Query(value = "from AppointmentSlots a where a.user.userId=:user_id")
 	List<AppointmentSlots> getAppointmentsByUserId(long user_id);
 	
+	@Query(value = "from AppointmentSlots a where a.doctor.doctor_id=:doctor_id AND a.appointmentDate=:date AND a.appointmentStatus=:status")
+	List<AppointmentSlots> getAllAppointmentsByDoctorIdAndDate(long doctor_id, LocalDate date, String status);
+	
+	@Query(value = "from AppointmentSlots a where a.user.userId=:user_id AND a.appointmentDate< :today")
+	List<AppointmentSlots> getPastUserAppointments(long user_id, LocalDate today);
+	
+	@Query(value = "from AppointmentSlots a where a.user.userId=:user_id AND a.appointmentDate>=:today")
+	List<AppointmentSlots> getFutureUserAppointments(long user_id, LocalDate today);
+	
 }
